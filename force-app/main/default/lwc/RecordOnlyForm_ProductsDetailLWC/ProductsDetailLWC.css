@@ -1,0 +1,35 @@
+.RecordDetailX{
+    --slds-c-accordion-summary-color-background: #f3f3f3;
+    --slds-c-accordion-section-spacing-block-start: 0.4rem;
+    --slds-c-accordion-section-spacing-block-end: 0.4rem;
+    --slds-c-accordion-section-spacing-inline-start: 0.6rem;
+    --slds-c-accordion-section-spacing-inline-end: 0.6rem;
+    --slds-c-accordion-sizing-border: 0px;
+}
+.spinnerStyle{
+    height: 220px;
+}
+.kc-align-bottom{
+    display:flex; 
+    align-items:flex-end;
+}
+.kc-align-top{
+    display:flex; 
+    align-items:flex-start;
+}
+.kc-op-field{
+    margin-bottom: -1px;
+}
+.kc-full-stretch{
+    display: flex;
+    align-items: stretch;
+}
+.slds-form-element{
+    height: 100% !important;
+}
+.slds-hint-parent .kc-edit{
+    opacity: 0.4;
+}
+.slds-hint-parent:hover .kc-edit{
+    opacity: 1;
+}
