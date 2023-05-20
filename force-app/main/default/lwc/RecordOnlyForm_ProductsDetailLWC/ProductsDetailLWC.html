@@ -1,0 +1,34 @@
+<template>
+    <lightning-record-view-form record-id={recordId} object-api-name="Case">
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+            <lightning-accordion-section name="MTC_Oil" label="MTC Oil">
+                <lightning-layout pull-to-boundary="small" multiple-rows class="slds-p-horizontal_small">
+                     <template for:each={recordFieldsMTC} for:item="field">
+                        <lightning-layout-item key={field}  size="6" padding="horizontal-small">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-hint-parent">
+                                <span class="slds-form-element__label">{field.label}</span>
+                                <div class="slds-form-element__control kc-align-top">
+                                    <lightning-output-field class="slds-form-element__static kc-op-field" field-name={field.apiValue} variant="label-hidden"></lightning-output-field>  
+                                </div>
+                            </div>                        
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </lightning-accordion-section>
+        <lightning-accordion-section name="Powder_Sachet" label="Powder Sachet">
+                <lightning-layout pull-to-boundary="small" multiple-rows class="slds-p-horizontal_small">
+                     <template for:each={recordFieldsPowderSachet} for:item="field">
+                        <lightning-layout-item key={field}  size="6" padding="horizontal-small">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-hint-parent">
+                                <span class="slds-form-element__label">{field.label}</span>
+                                <div class="slds-form-element__control kc-align-top">
+                                    <lightning-output-field class="slds-form-element__static kc-op-field" field-name={field.apiValue} variant="label-hidden"></lightning-output-field>  
+                                </div>
+                            </div>                        
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </lightning-accordion-section>  
+         </lightning-accordion>
+    </lightning-record-view-form>
+</template>
