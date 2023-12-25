@@ -1,0 +1,90 @@
+public class VendorCarrierReferralHelper {
+    /**
+     * Author :  Alishba
+     * Date : 36/Dec/2023
+     * @description : if a VCR record exists as a primary, and a new VCR record is created with Primary 'Yes', then on save set Primary value to 'No' for other siblings under the same parent,
+                      OR
+                      if a primary existed, and a new primary was created, then on save the current primary would no longer be the primary, as the new primary is set. 
+                      Same if you wanted to edit the table and set a primary, then the other value that was already set to primary "yes" would become primary "no"
+     * @param newRecords
+     * @param oldMap
+     */
+     
+    public static void updateChildPrimaryVendorCarrierRefs(List<Vendor_Carrier_Referral__c> newRecords, Map<Id, Vendor_Carrier_Referral__c> OldMap) {
+  		Set<Id> parentIncidentIds = new Set<Id>();
+        Map<Id, list<Vendor_Carrier_Referral__c>> existingPrimaryVcrMap = new Map<Id, list<Vendor_Carrier_Referral__c>>();
+        list<Vendor_Carrier_Referral__c> vcrRecordToProcess =  new list<Vendor_Carrier_Referral__c>();
+        list<Vendor_Carrier_Referral__c> vcrRecordToUpdate =  new list<Vendor_Carrier_Referral__c>();
+        for(Vendor_Carrier_Referral__c vcr : newRecords){
+            if(vcr.Primary__c == 'Yes' && vcr.Incident_Number__c != null && (Trigger.isInsert || (Trigger.isUpdate && vcr.Primary__c != OldMap.get(vcr.Id).Primary__c))){
+                parentIncidentIds.add(vcr.Incident_Number__c);
+                vcrRecordToProcess.add(vcr);
+            }           
+        }
+        if(parentIncidentIds.isEmpty()){
+            return;
+        }
+
+        for (Vendor_Carrier_Referral__c vcr : [SELECT Id, Incident_Number__c, Primary__c, Type__c FROM Vendor_Carrier_Referral__c WHERE Incident_Number__c IN :parentIncidentIds AND Primary__c = 'Yes']) {
+            if (!existingPrimaryVcrMap.containsKey(vcr.Incident_Number__c)) {
+                existingPrimaryVcrMap.put(vcr.Incident_Number__c, new list<Vendor_Carrier_Referral__c>());
+            }
+            existingPrimaryVcrMap.get(vcr.Incident_Number__c).add(vcr);
+        }
+        
+        for (Vendor_Carrier_Referral__c vcrRecord : vcrRecordToProcess) {
+            list<Vendor_Carrier_Referral__c> vcrList = existingPrimaryVcrMap.get(vcrRecord.Incident_Number__c);
+            if(vcrList.isEmpty()){
+                continue;
+            }
+            for (Vendor_Carrier_Referral__c vcr : vcrList) {
+                if(vcr.Type__c == vcrRecord.Type__c){
+                    vcr.Primary__c = 'No';
+                    vcrRecordToUpdate.add(vcr);
+                }
+            }
+        }
+        if(!vcrRecordToUpdate.isEmpty()){
+            update vcrRecordToUpdate;
+        }
+    }
+
+        /**
+     * Author :  Alishba
+     * Date : 13/Dec/2023
+     * @description : There should only be 1 Primary entry for each Type(Vendor or Carrier) listed. If a Primary has already existed for a type then throw error
+     * @param newRecords
+     * @param oldMap
+     */
+     
+    public static void validatePrimaryVendorCarrierRef(List<Vendor_Carrier_Referral__c> newRecords, Map<Id, Vendor_Carrier_Referral__c> OldMap) {
+        Set<Id> parentIncidentIds = new Set<Id>();
+        Map<Id, Map<String, Vendor_Carrier_Referral__c>> existingPrimaryVcrMap = new Map<Id, Map<String, Vendor_Carrier_Referral__c>>();
+        for(Vendor_Carrier_Referral__c vcr : newRecords){
+            if(vcr.Primary__c == 'Yes' && vcr.Incident_Number__c != null && (Trigger.isInsert || (Trigger.isUpdate && vcr.Primary__c != OldMap.get(vcr.Id).Primary__c))){
+                parentIncidentIds.add(vcr.Incident_Number__c);
+            }           
+        }
+        if(parentIncidentIds.isEmpty()){
+            return;
+        }
+
+        for (Vendor_Carrier_Referral__c vcr : [SELECT Id, Incident_Number__c, Type__c FROM Vendor_Carrier_Referral__c WHERE Incident_Number__c IN :parentIncidentIds AND Primary__c = 'Yes']) {
+            if (!existingPrimaryVcrMap.containsKey(vcr.Incident_Number__c)) {
+                existingPrimaryVcrMap.put(vcr.Incident_Number__c, new Map<String, Vendor_Carrier_Referral__c>());
+            }
+            existingPrimaryVcrMap.get(vcr.Incident_Number__c).put(vcr.Type__c, vcr);
+        }
+        
+        for (Vendor_Carrier_Referral__c vcr : newRecords) {
+            if (vcr.Primary__c == 'Yes') {
+                Map<String, Vendor_Carrier_Referral__c> typeMap = existingPrimaryVcrMap.get(vcr.Incident_Number__c);
+                if (typeMap != null && typeMap.containsKey(vcr.Type__c)) {
+                    // Add an error if there is already a primary Vendor/Carrier for the parent Incident
+                    vcr.addError('There is already a primary ' + vcr.Type__c + ' for this Incident.');
+                }
+            }
+        }
+    }
+
+}
