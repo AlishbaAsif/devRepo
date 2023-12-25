@@ -33,7 +33,7 @@ public class VendorCarrierReferralHelper {
         }
         
         for (Vendor_Carrier_Referral__c vcrRecord : vcrRecordToProcess) {
-            list<Vendor_Carrier_Referral__c> vcrList = existingPrimaryVcrMap.get(vcrRecord.Incident_Number__c);
+            list<Vendor_Carrier_Referral__c> vcrList = new list<Vendor_Carrier_Referral__c>(existingPrimaryVcrMap.get(vcrRecord.Incident_Number__c));
             if(vcrList.isEmpty()){
                 continue;
             }
