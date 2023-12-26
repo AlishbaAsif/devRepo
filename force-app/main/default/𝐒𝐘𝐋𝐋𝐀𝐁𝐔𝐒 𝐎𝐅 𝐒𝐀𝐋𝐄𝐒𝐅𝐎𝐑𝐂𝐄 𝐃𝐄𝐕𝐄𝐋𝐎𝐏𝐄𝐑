@@ -1,0 +1,99 @@
+𝐒𝐘𝐋𝐋𝐀𝐁𝐔𝐒 𝐎𝐅 𝐒𝐀𝐋𝐄𝐒𝐅𝐎𝐑𝐂𝐄 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑
+ 
+1. 𝐀𝐩𝐞𝐱
+1.1.What is Apex and its Feature
+1.2.  When to Use and Flows of Action
+1.3.  Features not supported by APEX
+1.4.  What are Apex Environments?
+1.5.  Tools for Code
+1.6.   Apex Variables and Apex Literals
+ 
+2. 𝐃𝐚𝐭𝐚 𝐓𝐲𝐩𝐞𝐬 𝐚𝐧𝐝 𝐎𝐩𝐞𝐫𝐚𝐭𝐨𝐫
+2.1.   APEX Data Types
+2.2. sObjects
+2.3. Generic sobjects
+2.4.   Rules of Conversion
+2.5.   Collections
+2.6.   Lists
+2.7.   Nested Lists
+2.8.   Sets
+2.9.   Maps
+2.11. Operators
+
+3. 𝐋𝐨𝐠𝐢𝐜 𝐂𝐨𝐧𝐭𝐫𝐨𝐥 𝐚𝐧𝐝 𝐋𝐨𝐨𝐩𝐢𝐧𝐠 𝐒𝐭𝐚𝐭𝐞𝐦𝐞𝐧𝐭𝐬
+3.1.  Logic Control and Looping Statements
+3.2.  Looping Assignment Questions
+ 
+4. 𝐒𝐎𝐐𝐋
+4.1.  SOQL Basics
+4.2.  How to Write SOQL in APEX
+4.3.  SOQL Variable Binding
+4.4.  SOQL Return Type
+4.5.  SOQL Functions
+4.6.  SOQL Keywords
+4.7.  Date Literals
+4.8.  Child to Parent Relationship
+4.9.  Parent to Child Relationship
+4.10. Multi-level Relationships
+4.11. Dynamic SOQL
+ 
+5. 𝐒𝐎𝐒𝐋
+5.1. What is SOSL?
+5.2. How to Access Record in Apex Returned by SOSL
+5.3. Return Specific Fields
+5.4. Wildcards in SOSL
+5.5. SOQL via SOSL
+
+6. 𝐀𝐩𝐞𝐱 𝐃𝐌𝐋 𝐒𝐭𝐚𝐭𝐞𝐦𝐞𝐧𝐭𝐬 𝐚𝐧𝐝 𝐃𝐚𝐭𝐚𝐛𝐚𝐬𝐞 𝐌𝐞𝐭𝐡𝐨𝐝
+6.1. Apex DML Basics
+6.2.  DML SOQL Best Practices
+6.3. Database Class
+6.4. Empty Recycle Bin
+6.5. Count Query
+6.6. Lead Conversion
+6.7. Transaction Control and Rollback
+6.8. Database Class Method Result Object
+ 
+7. 𝐄𝐱𝐜𝐞𝐩𝐭𝐢𝐨𝐧𝐚𝐥 𝐇𝐚𝐧𝐝𝐥𝐢𝐧𝐠
+7.1. Basics
+7.2. System Defined Exceptions and Types
+7.3. Custom or User Defined Exceptions
+ 
+8. 𝐀𝐩𝐞𝐱 𝐓𝐫𝐢𝐠𝐠𝐞𝐫𝐬
+8.1. Basics
+8.2. Definition
+8.3. Types of Trigger
+8.4. Trigger Order of Execution
+8.5. Trigger Context Variables
+8.6.  Best Practices for Triggers
+8.7.  Trigger Exceptions
+
+9. 𝐀𝐩𝐞𝐱 𝐓𝐞𝐬𝐭
+9.1.   Basics
+9.2.  System-Defined Methods
+9.3.   Test Data
+9.4.Unit Tests
+ 
+10. 𝐆𝐨𝐯𝐞𝐫𝐧𝐨𝐫 𝐋𝐢𝐦𝐢𝐭𝐬 𝐚𝐧𝐝 𝐁𝐚𝐭𝐜𝐡 𝐀𝐩𝐞𝐱
+10.1.  What are Governor Limits?
+10.2.  Governor Limit Types
+10.3.  Batch Class
+10.4.  Schedule Batch Class in APEX
+10.5.  Execute Batch Class in APEX
+10.6.  Access Modifiers
+10.7.  Namespace
+ 
+11. 𝐕𝐢𝐬𝐮𝐚𝐥𝐟𝐨𝐫𝐜𝐞
+11.1.  Basics
+11.2.  Architecture
+11.3.  Standard Controller
+11.4.  View Pages
+11.5.  Edit Pages
+11.6.  Custom Controller
+11.7.  Order of Execution
+11.8.  System Mode
+
+𝐎𝐭𝐡𝐞𝐫 𝐓𝐨𝐩𝐢𝐜:
+*Integration*
+*Lightning AURA*
+*Lightning LWC*
