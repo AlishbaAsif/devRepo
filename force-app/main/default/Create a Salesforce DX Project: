@@ -1,0 +1,21 @@
+Create a Salesforce DX Project:
+
+1- In Visual Studio Code, open the Command Palette by pressing Ctrl+Shift+P (Windows) or Cmd+Shift+P (macOS).
+2- Type SFDX.
+3- Select SFDX: Create Project.
+4- Press Enter to accept the standard option.
+5- Enter HelloWorldLightningWebComponent as the project name.
+6- Press Enter.
+7- Select a folder to store the project.
+8- Click Create Project.
+
+
+Authorize Your Org
+1- In Visual Studio Code, open the Command Palette by pressing Ctrl+Shift+P (Windows) or Cmd+Shift+P (macOS).
+2- Type SFDX.
+3- Select SFDX: Authorize an Org.
+4- Press Enter to accept the Project Default login URL option.
+5- Press Enter to accept the default alias.
+6- This opens the Salesforce login in a separate browser window.
+7- Log in using your ORG credentials.
+8- If prompted to allow access, click Allow.
