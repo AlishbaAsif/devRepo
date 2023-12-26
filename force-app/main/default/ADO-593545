@@ -1,0 +1,123 @@
+To be triggered when a POTS Common Cause is closed in KSF:
+
+Edits:
+- RecordType must be POTS CC
+- POTS CC must be Closed
+- Incident Number must be not null on Case
+
+Dev:
+WSDL Link:  https://cwwapp1329d/arsys/WSDL/public/rme00d10/WIN_ET_Process_20220125?wsdl
+Service Link:  https://cwwapp1329d/arsys/services/ARService?server=rme00d10&webService=WIN_ET_Process_20220125
+Method:  Update_Ticket_Status
+
+SIT:
+WSDL Link:  https://cwwapp1331d/arsys/WSDL/public/rme00t20/WIN_ET_Process_20220125?wsdl
+Service Link:  https://cwwapp1331d/arsys/services/ARService?server=rme00t20&webService=WIN_ET_Process_20220125
+Method:  Update_Ticket_Status
+
+UAT:
+WSDL Link:  https://cwwapp1330d/arsys/WSDL/public/rme00t10/WIN_ET_Process_20220125?wsdl
+Service Link:  https://cwwapp1330d/arsys/services/ARService?server=rme00t10&webService=WIN_ET_Process_20220125
+Method:  Update_Ticket_Status
+
+
+
+Inputs Mapping
+--Incident_Number <- Case object, Common Cause Incident Number
+--Action <- "Update_Ticket_Status"
+--Impersonated_Employee_ID <- "Kinetic"
+--New_Status <- "Closed"
+--Future_Date <- Null
+--Future_Time <- Null
+--Circuit_ID <- Null
+--Company_Name <- Null
+--Vendor_Ticket_Number <- Null
+--Call_Back_Number <- Null
+--Service_Indicator <- "1"
+--View_Access <- "Public"
+--Clear_Date <- Current Date
+--Clear_Time <- Current Time
+--Close_Code <- Case object, Closure Code
+--Clearing_Remarks <- Case object, Closure Clearing Remarks
+--Closure_Tier1 <- OSP Trouble Cleared
+--Closure_Tier2 <- OSP Pole Line
+--Closure_Tier3 <- Unknown
+--Auto_Close_Hours <- Null
+
+Response:
+--Request_ID - Ignore
+--Incident Number - An Incident Number response indicates a successful closure
+
+Example:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:WIN_ET_Process_20220125">
+   <soapenv:Header>
+      <urn:AuthenticationInfo>
+         <urn:userName>rmdDNocIface</urn:userName>
+         <urn:password>rmdDNocIface</urn:password>
+         <!--Optional:-->
+         <urn:authentication>?</urn:authentication>
+         <!--Optional:-->
+         <urn:locale>?</urn:locale>
+         <!--Optional:-->
+         <urn:timeZone>?</urn:timeZone>
+      </urn:AuthenticationInfo>
+   </soapenv:Header>
+   <soapenv:Body>
+      <urn:Update_Ticket_Status>
+         <urn:Incident_Number>INC000040037167</urn:Incident_Number>
+         <urn:Action>Update_Ticket_Status</urn:Action>
+         <!--Optional:-->
+         <urn:Impersonated_Employee_ID>Kinetic</urn:Impersonated_Employee_ID>
+         <urn:New_Status>Closed</urn:New_Status>
+         <!--Optional:-->
+         <urn:Future_Date></urn:Future_Date>
+         <!--Optional:-->
+         <urn:Future_Time></urn:Future_Time>
+         <!--Optional:-->
+         <urn:Circuit_ID></urn:Circuit_ID>
+         <!--Optional:-->
+         <urn:Company_Name></urn:Company_Name>
+         <!--Optional:-->
+         <urn:Vendor_Ticket_Number></urn:Vendor_Ticket_Number>
+         <!--Optional:-->
+         <urn:Call_Back_Number></urn:Call_Back_Number>
+         <!--Optional:-->
+         <urn:Service_Indicator>1</urn:Service_Indicator>
+         <urn:View_Access>Public</urn:View_Access>
+         <!--Optional:-->
+         <urn:Clear_Date>2022-09-22</urn:Clear_Date>
+         <!--Optional:-->
+         <urn:Clear_Time>12:13:14</urn:Clear_Time>
+         <!--Optional:-->
+         <urn:Close_Code>Came Clear</urn:Close_Code>
+         <!--Optional:-->
+         <urn:Clearing_Remarks>POTS CC Closed</urn:Clearing_Remarks>
+         <!--Optional:-->
+         <urn:Closure_Tier1>Trouble Cleared Service Center</urn:Closure_Tier1>
+         <!--Optional:-->
+         <urn:Closure_Tier2>OSP Pole Line</urn:Closure_Tier2>
+         <!--Optional:-->
+         <urn:Closure_Tier3>Unknown</urn:Closure_Tier3>
+         <!--Optional:-->
+         <urn:Auto_Close_Hours></urn:Auto_Close_Hours>
+      </urn:Update_Ticket_Status>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Response:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soapenv:Body>
+      <ns0:Update_Ticket_StatusResponse xmlns:ns0="urn:WIN_ET_Process_20220125">
+         <ns0:Request_ID>000000000009602</ns0:Request_ID>
+         <ns0:Incident_Number>INC000040037167</ns0:Incident_Number>
+      </ns0:Update_Ticket_StatusResponse>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Public Links:
+https://osb-test3.windstream.com/client/KSVC/dev/POTSCommonCause?wdl
+https://osb-test3.windstream.com/client/KSVC/sit/POTSCommonCause?wsdl
+https://osb-test3.windstream.com/client/KSVC/uat/POTSCommonCause?wsdl
+https://osb-prod3.windstream.com/client/KSVC/prod/POTSCommonCause?wsdl
+
+
