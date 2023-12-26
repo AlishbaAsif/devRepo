@@ -1,0 +1,280 @@
+[8/2/22 7:14 PM] Alishba Asif
+Week 1: Beginning
+
+Task 1:
+
+Write an account trigger that fires whenever an account is created and creates a related contact against that account.
+
+Task2:
+
+Modify the account trigger to fire when an account is created with a Rating value equal to ‘Hot’ and it must update the Industry of respective account to ‘Technology’.
+
+Task 3:
+
+Update the account trigger to prevent creation of an account and gives a custom error i.e. (‘Missing required contact details on record.’) if the Phone and Email field on account record is empty.
+
+[8/3/22 3:19 PM] Alishba Asif
+Task 4:
+Whenever the industry field value is updated from 'Technology' to any other value on an account, populate the current date/time in the description field of the respective account.
+
+
+Task 5:
+Requirement:
+Show contact count in a custom field on Account.
+
+
+
+Create a custom field on Account object.
+
+
+Write a contact trigger to calculate all the contacts count against an Account and update it on the parent record.
+
+
+
+Task 6:
+
+Update contact trigger to delete all it's associated cases if a contact is deleted.
+
+[8/5/22 2:49 PM] Alishba Asif
+Note: I am updating task 5, so please proceed with task 6 first then work on task 5.
+ 
+
+[8/5/22 4:54 PM] Alishba Asif
+Please create two record types on Account object:
+Customer
+Vendor
+
+[8/12/22 3:39 PM] Alishba Asif
+Topic:
+
+
+What is metadata and custom settings?
+
+
+Study difference between metadata and custom settings?
+
+
+
+Create following record types on case object:
+
+
+Lodging
+D&R Reservations
+S&F Reservations
+
+
+
+Create a custom metadata with name 'CaseObjConf_Metadata'along with fields:
+RecordTypeAPIName (Text 20)
+RecordTypeId (Text 20)
+Role (Text 50)
+[8/12/22 3:43 PM] Alishba Asif
+Assuming that as you are familiar with Role Hierarchy, create below roles:
+Lodging Team Member
+D&R Team Member
+S&F Team Member
+[8/15/22 5:07 PM] Alishba Asif
+Create Apex Trigger on Case object to assign its ownership to a queue when of the relevant record type.
+[8/15/22 5:10 PM] Alishba Asif
+Create a new user with Salesforce License and Profile of Standard User and role of Lodging Team member.
+[8/15/22 5:11 PM] Alishba Asif
+Create 3 Queues and add new field into metadata i.e. QueueId and QueueDevName
+[8/15/22 5:12 PM] Alishba Asif
+use Maps collection in Case Trigger
+[8/23/22 3:59 PM] Alishba Asif
+TASK 7: update case status to "In Progress" when a user takes ownership of a case by a queue manually
+TASK 8: Create new field 'Pending Date' on case and Add below values for lodging record type on case:
+1. Payment Pending
+2. Payment Done
+
+3. Cancelled
+
+and create a new metadata then add these values into it.
+
+Requirement: When ever a case status is changed to any mentioned status then update the Pending Date field with current date time else set it to null.
+
+NOTE: This process must be run only for lodging record type.
+ like 1
+
+
+[8/23/22 4:10 PM] Alishba Asif
+Explore Bitly API as well, like getting a free version of it and how to leverage it in code.
+[8/23/22 4:10 PM] Alishba Asif
+Task 9
+[8/23/22 4:13 PM] Alishba Asif
+Task 10:
+Study SF Survey and explore then, create survey(mainly to generate survey urls)
+
+
+Task 11: Write an Apex Batch to process survey URLs via Bitly and update them on relevant records.
+[8/23/22 4:36 PM] Alishba Asif
+to warm up with Apex batch do below task first:
+Create a custom object with name Dependents:
+
+Create a few field on it like first name, last name etc, and a checkbox eligible
+Write an Apex Batch that will pick all the records from Dependent object where Eligible checkbox is ticked
+The batch is required to create accounts against each record
+
+it is also required to delete the records against which is have created an account
+[8/23/22 4:51 PM] Alishba Asif
+Setup email to case using any two email addresses into your org
+[8/23/22 5:08 PM] Alishba Asif
+As discussed, will be  creating a Lightning APP, lightning record page for Case and email to case for each record type. Afterwards, you will continue with task 7
+
+
+Task 8 Updates as discussed:
+Add below status values:
+Payment Awaiting
+Payment Pending
+Paid
+On-Hold
+And Custom Field Name
+Payment Due Date (2days time once the status is updated to Payment Awaiting)
+
+
+[8/29/22 4:36 PM] Alishba Asif
+Task 9 Updates as Discussed:
+
+Custom object "Potential Customer"
+Checkboxes:
+
+Eligible
+Delete PCR
+Custom Field:
+Customer Id (create it on Account object as well with marking it as a Unique)
+[8/29/22 4:46 PM] Alishba Asif
+
+
+	◦	Write an Apex Batch that will pick all the records from Potential Customer object where Eligible checkbox is ticked
+
+	◦	The batch is required to create accounts against each record
+
+	◦	it is also required to delete the records against which is have created an account and mark the Delete PCR checkbox to true in case of duplicates
+
+
+[9/23/22 2:29 PM] Alishba Asif
+Sample code for the count task:
+NOTE: it's just to show that how you can avoid nested looping here,  and utilize the sub-query well. It doesn't cover all the use cases that we had discussed for this particular task!
+public void OnAfterInsert(List<Contact> listContact){
+        Set<Id> accIdsSet= new Set<Id>();
+        List<Account> accountsToUpdate = new List<Account>();
+        for (Contact con : listContact) {
+            accIdsSet.add(con.AccountId);
+        }
+        
+        for (Account accnt: [Select Name, (Select Id from Contacts) from Account WHERE Id in: accIdsSet ]) {
+            accnt.test__c = String.valueOf(accnt.Contacts.size());
+            accountsToUpdate.add(accnt);
+        }
+        
+        if(accountsToUpdate != null && accountsToUpdate.size() > 0)
+            update accountsToUpdate;
+    }
+[9/23/22 3:00 PM] Alishba Asif
+Bulkified Code along with the re-parenting scenario:
+
+
+  public void OnAfterInsert(List<Contact> listContact){
+        Set<Id> parentAccIdsSet= new Set<Id>();
+        List<Account> accountsToUpdate = new List<Account>();
+        for (Contact con : listContact) {
+            if(con.AccountId != '')
+                parentAccIdsSet.add(con.AccountId);
+        }
+        
+        for (Account accnt: [SELECT Name, (Select Id from Contacts) FROM Account WHERE Id IN: parentAccIdsSet]) {
+            accnt.test__c = String.valueOf(accnt.Contacts.size());
+            accountsToUpdate.add(accnt);
+        }
+        
+        if(accountsToUpdate != null && accountsToUpdate.size() > 0)
+            update accountsToUpdate;
+    }
+    
+    public void OnAfterUpdate(List<Contact> listContact, Map<Id,Contact> MapOldContact){
+         Set<Id> parentAccIdsSet= new Set<Id>();
+        List<Account> accountsToUpdate = new List<Account>();
+        for (Contact con : listContact) {
+            if(con.AccountId != '')
+                parentAccIdsSet.add(con.AccountId);
+            
+            Contact oldContact = MapOldContact.get(con.Id);
+            If(con.AccountId != oldContact.AccountId && con.AccountId != '')
+                parentAccIdsSet.add(oldContact.AccountId);
+        }
+        
+        for (Account accnt: [SELECT Name, (Select Id from Contacts) FROM Account WHERE Id IN: parentAccIdsSet ]) {
+            accnt.test__c = String.valueOf(accnt.Contacts.size());
+            accountsToUpdate.add(accnt);
+        }
+        if(accountsToUpdate != null && accountsToUpdate.size() > 0)
+            update accountsToUpdate;
+    }
+
+
+
+
+[10/12/22 4:16 PM] Alishba Asif
+Write an Apex Rest Service to expose your SF data to an external application:
+
+
+What your API needs to do?
+Must take the below parameters as input:
+Case Id (Required)
+
+
+Return the following fields in response:
+Case Number
+Case Status
+Priority
+Created Date
+Case Owner Name
+
+
+Below parameters are needed to be part of the custom response
+Message = "Request Successfully Completed."
+Code = "500"
+IsSuccess = "True"
+[10/12/22 4:55 PM] Alishba Asif
+New Fields on Case object:
+Resolution Date (Date field)
+Customer Type (Picklist: Company, Customer, Contractor)
+Updates of Existing Fields:
+Priority: Add values(Very Low, Very High)
+Status: Add values(On-Hold, Cancelled)
+
+
+Write an Apex Rest Service to expose your SF data to an external application:
+
+
+What your API needs to do?
+Must take the below parameters as input:
+Case Id (Required)
+Resolution Date (Required)
+Priority(Optional)
+Customer Type (Required)
+Status (Required)
+
+
+Return the following fields in response:
+
+Message = "Request Successfully Completed."
+
+Code = "500"
+
+IsSuccess = "True"
+
+
+Requirements:
+The case must be valid(exist in salesforce)
+
+The resolution Date must be a current or future date.
+
+The priority field value must be a valid value.
+The customer type must be either a Customer or a Contractor.
+
+The case must not be in a working or completed state.
+
+
+Update the resolution date and priority along with changing its status to escalated on the case record which is related to a Customer or Contractor.
+ like 1
